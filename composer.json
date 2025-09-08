@@ -1,8 +1,8 @@
 {
-	"name": "johnpbloch/wordpress-core-installer",
-	"description": "A custom installer to handle deploying WordPress with composer",
+	"name": "dieselfox1/finpress-core-installer",
+	"description": "A custom installer to handle deploying FinPress with composer",
 	"keywords": [
-		"wordpress"
+		"finpress"
 	],
 	"type": "composer-plugin",
 	"license": "GPL-2.0-or-later",
@@ -10,22 +10,22 @@
 	"prefer-stable": true,
 	"authors": [
 		{
-			"name": "John P. Bloch",
-			"email": "me@johnpbloch.com"
+			"name": "",
+			"email": ""
 		}
 	],
 	"autoload": {
 		"psr-0": {
-			"johnpbloch\\Composer\\": "src/"
+			"dieselfox1\\Composer\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Tests\\JohnPBloch\\Composer\\": "tests/"
+			"Tests\\dieselfox1\\Composer\\": "tests/"
 		}
 	},
 	"extra": {
-		"class": "johnpbloch\\Composer\\WordPressCorePlugin"
+		"class": "dieselfox1\\Composer\\FinPressCorePlugin"
 	},
 	"require": {
 		"composer-plugin-api": "^1.0 || ^2.0",

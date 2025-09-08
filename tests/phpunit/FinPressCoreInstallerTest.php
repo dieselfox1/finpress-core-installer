@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WordPress Core Installer - A Composer to install WordPress in a webroot subdirectory
+ * FinPress Core Installer - A Composer to install FinPress in a webroot subdirectory
  * Copyright (C) 2013    John P. Bloch
  *
  * This program is free software; you can redistribute it and/or modify
@@ -26,34 +26,34 @@ use Composer\Config;
 use Composer\IO\NullIO;
 use Composer\Package\Package;
 use Composer\Package\RootPackage;
-use johnpbloch\Composer\WordPressCoreInstaller;
+use johnpbloch\Composer\FinPressCoreInstaller;
 use PHPUnit\Framework\TestCase;
 
-class WordPressCoreInstallerTest extends TestCase {
+class FinPressCoreInstallerTest extends TestCase {
 
 	public function testSupports() {
-		$installer = new WordPressCoreInstaller( new NullIO(), $this->createComposer() );
+		$installer = new FinPressCoreInstaller( new NullIO(), $this->createComposer() );
 
-		$this->assertTrue( $installer->supports( 'wordpress-core' ) );
-		$this->assertFalse( $installer->supports( 'not-wordpress-core' ) );
+		$this->assertTrue( $installer->supports( 'finpress-core' ) );
+		$this->assertFalse( $installer->supports( 'not-finpress-core' ) );
 	}
 
 	public function testDefaultInstallDir() {
-		$installer = new WordPressCoreInstaller( new NullIO(), $this->createComposer() );
+		$installer = new FinPressCoreInstaller( new NullIO(), $this->createComposer() );
 		$package   = new Package( 'johnpbloch/test-package', '1.0.0.0', '1.0.0' );
 
-		$this->assertEquals( 'wordpress', $installer->getInstallPath( $package ) );
+		$this->assertEquals( 'finpress', $installer->getInstallPath( $package ) );
 	}
 
 	public function testSingleRootInstallDir() {
 		$composer    = $this->createComposer();
 		$rootPackage = new RootPackage( 'test/root-package', '1.0.1.0', '1.0.1' );
 		$composer->setPackage( $rootPackage );
-		$installDir = 'tmp-wp-' . rand( 0, 9 );
+		$installDir = 'tmp-fp-' . rand( 0, 9 );
 		$rootPackage->setExtra( array(
-			'wordpress-install-dir' => $installDir,
+			'finpress-install-dir' => $installDir,
 		) );
-		$installer = new WordPressCoreInstaller( new NullIO(), $composer );
+		$installer = new FinPressCoreInstaller( new NullIO(), $composer );
 
 		$this->assertEquals(
 			$installDir,
@@ -68,12 +68,12 @@ class WordPressCoreInstallerTest extends TestCase {
 		$rootPackage = new RootPackage( 'test/root-package', '1.0.1.0', '1.0.1' );
 		$composer->setPackage( $rootPackage );
 		$rootPackage->setExtra( array(
-			'wordpress-install-dir' => array(
+			'finpress-install-dir' => array(
 				'test/package-one' => 'install-dir/one',
 				'test/package-two' => 'install-dir/two',
 			),
 		) );
-		$installer = new WordPressCoreInstaller( new NullIO(), $composer );
+		$installer = new FinPressCoreInstaller( new NullIO(), $composer );
 
 		$this->assertEquals(
 			'install-dir/one',
@@ -91,28 +91,28 @@ class WordPressCoreInstallerTest extends TestCase {
 	}
 
 	public function testCorePackageCanDefineInstallDirectory() {
-		$installer = new WordPressCoreInstaller( new NullIO(), $this->createComposer() );
+		$installer = new FinPressCoreInstaller( new NullIO(), $this->createComposer() );
 		$package   = new Package( 'test/has-default-install-dir', '0.1.0.0', '0.1' );
 		$package->setExtra( array(
-			'wordpress-install-dir' => 'not-wordpress',
+			'finpress-install-dir' => 'not-finpress',
 		) );
 
-		$this->assertEquals( 'not-wordpress', $installer->getInstallPath( $package ) );
+		$this->assertEquals( 'not-finpress', $installer->getInstallPath( $package ) );
 	}
 
 	public function testCorePackageDefaultDoesNotOverrideRootDirectoryDefinition() {
 		$composer = $this->createComposer();
 		$composer->setPackage( new RootPackage( 'test/root-package', '0.1.0.0', '0.1' ) );
 		$composer->getPackage()->setExtra( array(
-			'wordpress-install-dir' => 'wp',
+			'finpress-install-dir' => 'fp',
 		) );
-		$installer = new WordPressCoreInstaller( new NullIO(), $composer );
+		$installer = new FinPressCoreInstaller( new NullIO(), $composer );
 		$package   = new Package( 'test/has-default-install-dir', '0.1.0.0', '0.1' );
 		$package->setExtra( array(
-			'wordpress-install-dir' => 'not-wordpress',
+			'finpress-install-dir' => 'not-finpress',
 		) );
 
-		$this->assertEquals( 'wp', $installer->getInstallPath( $package ) );
+		$this->assertEquals( 'fp', $installer->getInstallPath( $package ) );
 	}
 
 	public function testTwoPackagesCannotShareDirectory() {
@@ -121,7 +121,7 @@ class WordPressCoreInstallerTest extends TestCase {
 			'Two packages (test/bazbat and test/foobar) cannot share the same directory!'
 		);
 		$composer  = $this->createComposer();
-		$installer = new WordPressCoreInstaller( new NullIO(), $composer );
+		$installer = new FinPressCoreInstaller( new NullIO(), $composer );
 		$package1  = new Package( 'test/foobar', '1.1.1.1', '1.1.1.1' );
 		$package2  = new Package( 'test/bazbat', '1.1.1.1', '1.1.1.1' );
 
@@ -135,13 +135,13 @@ class WordPressCoreInstallerTest extends TestCase {
 	public function testSensitiveInstallDirectoriesNotAllowed( $directory ) {
 		$this->jpbExpectException(
 			'\InvalidArgumentException',
-			'/Warning! .+? is an invalid WordPress install directory \(from test\/package\)!/',
+			'/Warning! .+? is an invalid FinPress install directory \(from test\/package\)!/',
 			true
 		);
 		$composer  = $this->createComposer();
-		$installer = new WordPressCoreInstaller( new NullIO(), $composer );
+		$installer = new FinPressCoreInstaller( new NullIO(), $composer );
 		$package   = new Package( 'test/package', '1.1.0.0', '1.1' );
-		$package->setExtra( array( 'wordpress-install-dir' => $directory ) );
+		$package->setExtra( array( 'finpress-install-dir' => $directory ) );
 		$installer->getInstallPath( $package );
 	}
 
@@ -157,7 +157,7 @@ class WordPressCoreInstallerTest extends TestCase {
 	 * @afterClass
 	 */
 	public static function resetInstallPaths() {
-		$prop = new \ReflectionProperty( '\johnpbloch\Composer\WordPressCoreInstaller', '_installedPaths' );
+		$prop = new \ReflectionProperty( '\johnpbloch\Composer\FinPressCoreInstaller', '_installedPaths' );
 		$prop->setAccessible( true );
 		$prop->setValue( array() );
 	}

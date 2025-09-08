@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WordPress Core Installer - A Composer to install WordPress in a webroot subdirectory
+ * FinPress Core Installer - A Composer to install FinPress in a webroot subdirectory
  * Copyright (C) 2013    John P. Bloch
  *
  * This program is free software; you can redistribute it and/or modify
@@ -30,10 +30,10 @@ use Composer\Plugin\PluginInterface;
 use Composer\Test\Mock\HttpDownloaderMock;
 use Composer\Util\HttpDownloader;
 use Composer\Util\Loop;
-use johnpbloch\Composer\WordPressCorePlugin;
+use johnpbloch\Composer\FinPressCorePlugin;
 use PHPUnit\Framework\TestCase;
 
-class WordPressCorePluginTest extends TestCase {
+class FinPressCorePluginTest extends TestCase {
 
 	public function testActivate() {
 		$composer = new Composer();
@@ -43,12 +43,12 @@ class WordPressCorePluginTest extends TestCase {
 		$composer->setInstallationManager( $installationManager );
 		$composer->setConfig( new Config() );
 
-		$plugin = new WordPressCorePlugin();
+		$plugin = new FinPressCorePlugin();
 		$plugin->activate( $composer, $nullIO );
 
-		$installer = $installationManager->getInstaller( 'wordpress-core' );
+		$installer = $installationManager->getInstaller( 'finpress-core' );
 
-		$this->assertInstanceOf( '\johnpbloch\Composer\WordPressCoreInstaller', $installer );
+		$this->assertInstanceOf( '\johnpbloch\Composer\FinPressCoreInstaller', $installer );
 	}
 
 	/**

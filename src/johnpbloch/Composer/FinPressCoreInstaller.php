@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WordPress Core Installer - A Composer to install WordPress in a webroot subdirectory
+ * FinPress Core Installer - A Composer to install FinPress in a webroot subdirectory
  * Copyright (C) 2013    John P. Bloch
  *
  * This program is free software; you can redistribute it and/or modify
@@ -25,12 +25,12 @@ use Composer\Config;
 use Composer\Installer\LibraryInstaller;
 use Composer\Package\PackageInterface;
 
-class WordPressCoreInstaller extends LibraryInstaller {
+class FinPressCoreInstaller extends LibraryInstaller {
 
-	const TYPE = 'wordpress-core';
+	const TYPE = 'finpress-core';
 
 	const MESSAGE_CONFLICT = 'Two packages (%s and %s) cannot share the same directory!';
-	const MESSAGE_SENSITIVE = 'Warning! %s is an invalid WordPress install directory (from %s)!';
+	const MESSAGE_SENSITIVE = 'Warning! %s is an invalid FinPress install directory (from %s)!';
 
 	private static $_installedPaths = array();
 
@@ -44,19 +44,19 @@ class WordPressCoreInstaller extends LibraryInstaller {
 		$prettyName      = $package->getPrettyName();
 		if ( $this->composer->getPackage() ) {
 			$topExtra = $this->composer->getPackage()->getExtra();
-			if ( ! empty( $topExtra['wordpress-install-dir'] ) ) {
-				$installationDir = $topExtra['wordpress-install-dir'];
+			if ( ! empty( $topExtra['finpress-install-dir'] ) ) {
+				$installationDir = $topExtra['finpress-install-dir'];
 				if ( is_array( $installationDir ) ) {
 					$installationDir = empty( $installationDir[ $prettyName ] ) ? false : $installationDir[ $prettyName ];
 				}
 			}
 		}
 		$extra = $package->getExtra();
-		if ( ! $installationDir && ! empty( $extra['wordpress-install-dir'] ) ) {
-			$installationDir = $extra['wordpress-install-dir'];
+		if ( ! $installationDir && ! empty( $extra['finpress-install-dir'] ) ) {
+			$installationDir = $extra['finpress-install-dir'];
 		}
 		if ( ! $installationDir ) {
-			$installationDir = 'wordpress';
+			$installationDir = 'finpress';
 		}
 		$vendorDir = $this->composer->getConfig()->get( 'vendor-dir', Config::RELATIVE_PATHS ) ?: 'vendor';
 		if (

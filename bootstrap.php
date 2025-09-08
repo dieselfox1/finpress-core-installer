@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WordPress Core Installer - A Composer to install WordPress in a webroot subdirectory
+ * FinPress Core Installer - A Composer to install FinPress in a webroot subdirectory
  * Copyright (C) 2013    John P. Bloch
  *
  * This program is free software; you can redistribute it and/or modify
